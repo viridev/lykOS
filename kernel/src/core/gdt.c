@@ -1,4 +1,4 @@
-#include "gdt.h"
+#include "..\gdt.h"
 
 gdt_entry_t gdt_entries[5];
 gdt_reg_t gdt_reg;

@@ -25,6 +25,9 @@ void pci_eoi(uint8_t irq)
 {
     // check if IRQ came from the Slave PIC and if so issue the cmd to both chips
     if (irq >= 8)
-        outb(PIC_SLAVE_CMD, 0x20);
+	{
+		outb(PIC_SLAVE_CMD, 0x20);
+	}
+        
 	outb(PIC_MASTER_CMD, 0x20);
 }

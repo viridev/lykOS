@@ -5,4 +5,4 @@
 
 void serial_write_char(char a);
 void serial_write(const char *str);
-void serial_init();
+int serial_init();

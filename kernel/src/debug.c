@@ -1,5 +1,8 @@
 #include "debug.h"
+
 #include <core/io.h>
+
+#include <lib/stdlib.h>
 
 int is_transmit_empty()
 {
@@ -22,7 +25,7 @@ void serial_write(const char *str)
 
 
 // copy paste because who cares
-void serial_init()
+int serial_init()
 {
     outb(PORT + 1, 0x00); // Disable all interrupts
     outb(PORT + 3, 0x80); // Enable DLAB (set baud rate divisor)

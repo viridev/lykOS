@@ -78,7 +78,7 @@ static void hcf(void) {
 
 #include <debug.h>
 #include <core/gdt.h>
-#include <core/idt.h>
+#include <core/int/idt.h>
 
 void _start(void) {
     // Ensure we got a framebuffer.
