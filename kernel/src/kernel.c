@@ -2,10 +2,6 @@
 #include <stddef.h>
 #include <limine.h>
 
-// The Limine requests can be placed anywhere, but it is important that
-// the compiler does not optimise them away, so, usually, they should
-// be made volatile or equivalent.
-
 static volatile struct limine_framebuffer_request framebuffer_request = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
     .revision = 0
@@ -68,7 +64,6 @@ int memcmp(const void *s1, const void *s2, size_t n) {
     return 0;
 }
 
-// Halt and catch fire function.
 static void hcf(void) {
     asm ("cli");
     for (;;) {
@@ -76,9 +71,11 @@ static void hcf(void) {
     }
 }
 
-#include <debug.h>
+#include <lib/serial.h>
+#include <lib/debug.h>
 #include <core/gdt.h>
 #include <core/int/idt.h>
+#include <core/mem/pmm.h>
 
 void _start(void) {
     // Ensure we got a framebuffer.
@@ -97,13 +94,17 @@ void _start(void) {
     }
 
     serial_init();
-    serial_write("Hi!\n");
+    debug_log("Hi!");
 
     gdt_init();
     idt_init();
-    __asm__ volatile ("int $0x3");
+    pmm_init();
+    debug_log("Done.");
 
-    serial_write("Bye!\n");
+    for (;;)
+        ;
+
+    // debug_log("Bye!");
 
     hcf();
 }

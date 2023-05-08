@@ -41,8 +41,6 @@ isr_stub_%1:
     pop rax
 
     add rsp, 16
-
-    add rsp, 8 ; remove the pushed byte from the stack
     iretq
 %endmacro
 

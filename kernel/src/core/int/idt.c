@@ -1,8 +1,8 @@
 #include "idt.h"
 #include "pic.h"
 
-#include <debug.h>
-#include <lib/stdlib.h>
+#include <lib/debug.h>
+#include <libc/stdlib.h>
 
 __attribute__((aligned(0x10)))
 idt_entry_t idt_entries[256];
@@ -26,7 +26,8 @@ void isr_handler(int_debug_regs *regs)
     __asm__ volatile("cli");
 
     char buf[10];
-    serial_write(itoa((int)regs->int_no, buf, 10));
+    debug_log("CPU exception: %llu", regs->int_no);
+    debug_log("System halted.");
 
     for (;;)
         __asm__ volatile("hlt");
@@ -42,38 +43,38 @@ void idt_init()
     {
         uint8_t attr = IDT_ENTRY_FLAG_PRESENT | IDT_ENTRY_FLAG_INT;
 
-        idt_set_entry(0, (uint64_t)&isr_stub_0, attr);
-        idt_set_entry(1, (uint64_t)&isr_stub_1, attr);
-        idt_set_entry(2, (uint64_t)&isr_stub_2, attr);
-        idt_set_entry(3, (uint64_t)&isr_stub_3, attr);
-        idt_set_entry(4, (uint64_t)&isr_stub_4, attr);
-        idt_set_entry(5, (uint64_t)&isr_stub_5, attr);
-        idt_set_entry(6, (uint64_t)&isr_stub_6, attr);
-        idt_set_entry(7, (uint64_t)&isr_stub_7, attr);
-        idt_set_entry(8, (uint64_t)&isr_stub_8, attr);
-        idt_set_entry(9, (uint64_t)&isr_stub_9, attr);
-        idt_set_entry(10, (uint64_t)&isr_stub_10, attr);
-        idt_set_entry(11, (uint64_t)&isr_stub_11, attr);
-        idt_set_entry(12, (uint64_t)&isr_stub_12, attr);
-        idt_set_entry(13, (uint64_t)&isr_stub_13, attr);
-        idt_set_entry(14, (uint64_t)&isr_stub_14, attr);
-        idt_set_entry(15, (uint64_t)&isr_stub_15, attr);
-        idt_set_entry(16, (uint64_t)&isr_stub_16, attr);
-        idt_set_entry(17, (uint64_t)&isr_stub_17, attr);
-        idt_set_entry(18, (uint64_t)&isr_stub_18, attr);
-        idt_set_entry(19, (uint64_t)&isr_stub_19, attr);
-        idt_set_entry(20, (uint64_t)&isr_stub_20, attr);
-        idt_set_entry(21, (uint64_t)&isr_stub_21, attr);
-        idt_set_entry(22, (uint64_t)&isr_stub_22, attr);
-        idt_set_entry(23, (uint64_t)&isr_stub_23, attr);
-        idt_set_entry(24, (uint64_t)&isr_stub_24, attr);
-        idt_set_entry(25, (uint64_t)&isr_stub_25, attr);
-        idt_set_entry(26, (uint64_t)&isr_stub_26, attr);
-        idt_set_entry(27, (uint64_t)&isr_stub_27, attr);
-        idt_set_entry(28, (uint64_t)&isr_stub_28, attr);
-        idt_set_entry(29, (uint64_t)&isr_stub_29, attr);
-        idt_set_entry(30, (uint64_t)&isr_stub_30, attr);
-        idt_set_entry(31, (uint64_t)&isr_stub_31, attr);
+        idt_set_entry(0, &isr_stub_0, attr);
+        idt_set_entry(1, &isr_stub_1, attr);
+        idt_set_entry(2, &isr_stub_2, attr);
+        idt_set_entry(3, &isr_stub_3, attr);
+        idt_set_entry(4, &isr_stub_4, attr);
+        idt_set_entry(5, &isr_stub_5, attr);
+        idt_set_entry(6, &isr_stub_6, attr);
+        idt_set_entry(7, &isr_stub_7, attr);
+        idt_set_entry(8, &isr_stub_8, attr);
+        idt_set_entry(9, &isr_stub_9, attr);
+        idt_set_entry(10, &isr_stub_10, attr);
+        idt_set_entry(11, &isr_stub_11, attr);
+        idt_set_entry(12, &isr_stub_12, attr);
+        idt_set_entry(13, &isr_stub_13, attr);
+        idt_set_entry(14, &isr_stub_14, attr);
+        idt_set_entry(15, &isr_stub_15, attr);
+        idt_set_entry(16, &isr_stub_16, attr);
+        idt_set_entry(17, &isr_stub_17, attr);
+        idt_set_entry(18, &isr_stub_18, attr);
+        idt_set_entry(19, &isr_stub_19, attr);
+        idt_set_entry(20, &isr_stub_20, attr);
+        idt_set_entry(21, &isr_stub_21, attr);
+        idt_set_entry(22, &isr_stub_22, attr);
+        idt_set_entry(23, &isr_stub_23, attr);
+        idt_set_entry(24, &isr_stub_24, attr);
+        idt_set_entry(25, &isr_stub_25, attr);
+        idt_set_entry(26, &isr_stub_26, attr);
+        idt_set_entry(27, &isr_stub_27, attr);
+        idt_set_entry(28, &isr_stub_28, attr);
+        idt_set_entry(29, &isr_stub_29, attr);
+        idt_set_entry(30, &isr_stub_30, attr);
+        idt_set_entry(31, &isr_stub_31, attr);
     }
 
     __asm__ volatile("lidt %0"
@@ -83,4 +84,6 @@ void idt_init()
     pic_init(); // enable the PIC before setting the interrupt flag
 
     __asm__ volatile("sti"); // set the interrupt flag
+
+    debug_log("IDT initialized.");
 }

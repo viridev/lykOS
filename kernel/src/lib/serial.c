@@ -1,8 +1,7 @@
-#include "debug.h"
+#include "serial.h"
 
-#include <core/io.h>
-
-#include <lib/stdlib.h>
+#include <lib/io.h>
+#include <libc/stdlib.h>
 
 int is_transmit_empty()
 {

@@ -1,4 +1,6 @@
-#include "..\gdt.h"
+#include "gdt.h"
+
+#include <lib/debug.h>
 
 gdt_entry_t gdt_entries[5];
 gdt_reg_t gdt_reg;
@@ -29,4 +31,6 @@ void gdt_init()
     gdt_set_entry(4, 0, 0xFFFFF, 0xF2, 0xC);
 
     __asm__ volatile("lgdt %0" : : "m"(gdt_reg));
+
+    debug_log("GDT initialized.");
 }

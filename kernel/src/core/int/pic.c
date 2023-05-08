@@ -1,5 +1,5 @@
 #include "pic.h"
-#include "io.h"
+#include <lib/io.h>
 
 void pic_init()
 {
@@ -19,6 +19,8 @@ void pic_init()
 
 	outb(PIC_MASTER_DATA, 0x0);
 	outb(PIC_SLAVE_DATA, 0x0);
+
+	debug_log("PIC initialized.");
 }
 
 void pci_eoi(uint8_t irq)
