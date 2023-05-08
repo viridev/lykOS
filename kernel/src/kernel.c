@@ -104,7 +104,7 @@ void _start(void) {
     for (;;)
         ;
 
-    // debug_log("Bye!");
+    debug_log("Bye!");
 
     hcf();
 }

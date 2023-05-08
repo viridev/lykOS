@@ -1,4 +1,4 @@
-EXTERN isr_handler
+EXTERN int_handler
 
 %macro isr_stub 1
 global isr_stub_%1
@@ -22,7 +22,7 @@ isr_stub_%1:
     push r15
 
     mov rdi, rsp
-    call isr_handler
+    call int_handler
 
     pop r15
     pop r14

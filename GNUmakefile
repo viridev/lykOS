@@ -15,7 +15,6 @@ all-hdd: $(IMAGE_NAME).hdd
 .PHONY: run-win
 run-win: $(IMAGE_NAME).iso
 	qemu-system-x86_64.exe $(QEMU_FALGS) -cdrom $(IMAGE_NAME).iso -boot d
-	$(MAKE) clean
 
 .PHONY: run
 run: $(IMAGE_NAME).iso

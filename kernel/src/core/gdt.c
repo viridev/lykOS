@@ -19,6 +19,8 @@ void gdt_set_entry(int index, uint32_t base, uint32_t limit, uint8_t access, uin
     entry->flags = flags;
 }
 
+extern gdt_flush(uint64_t gdt_reg_addr);
+
 void gdt_init()
 {
     gdt_reg.base = &gdt_entries;
@@ -30,7 +32,7 @@ void gdt_init()
     gdt_set_entry(3, 0, 0xFFFFF, 0xFA, 0xA);
     gdt_set_entry(4, 0, 0xFFFFF, 0xF2, 0xC);
 
-    __asm__ volatile("lgdt %0" : : "m"(gdt_reg));
+    gdt_flush((uint64_t)&gdt_reg);
 
     debug_log("GDT initialized.");
 }
