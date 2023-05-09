@@ -23,21 +23,21 @@ void idt_set_entry(uint8_t index, void *handler, uint8_t attributes)
 
 void int_handler(int_debug_regs *regs)
 {
-    __asm__ volatile("cli");
-
     if (regs->int_no < 32) // isr
     {
+        __asm__ volatile("cli");
+
         char buf[10];
         debug_log("CPU exception: %llu", regs->int_no);
         debug_log("System halted.");
+
+        for (;;)
+            __asm__ volatile("hlt");
     }
     else // irq
     {
         pci_eoi(regs->int_no - 32);
-    }    
-
-    for (;;)
-        __asm__ volatile("hlt");
+    }       
 }
 
 void idt_init()

@@ -47,3 +47,8 @@ void debug_log(const char *str, ...)
 
     va_end(list);
 }
+
+void debug_br()
+{
+    serial_write("-------------------------\n");    
+}

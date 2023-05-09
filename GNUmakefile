@@ -3,7 +3,7 @@ override MAKEFLAGS += -rR
 
 override IMAGE_NAME := barebones
 
-override QEMU_FALGS := -M q35 -m 2G -serial stdio -d int -M smm=off -D ./log.txt
+override QEMU_FALGS := -M q35 -m 256M -serial stdio -d int -M smm=off -D ./log.txt
 
 .PHONY: all
 all: $(IMAGE_NAME).iso
