@@ -3,12 +3,12 @@
 
 typedef struct
 {
-    uint16_t limit_low;
-    uint32_t base_low : 24;
-    uint16_t access : 8;
-    uint16_t limit_high : 4;
-    uint16_t flags : 4;
-    uint16_t base_high : 8;
+    uint16_t limit;
+    uint16_t base_low;
+    uint8_t base_mid;
+    uint8_t access;
+    uint8_t granularity;
+    uint8_t base_high;
 } __attribute__((packed)) gdt_entry_t;
 
 typedef struct
