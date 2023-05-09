@@ -2,20 +2,7 @@
 
 #include <lib/debug.h>
 
-// gdt_entry_t gdt_entries[7];
 gdt_reg_t gdt_reg;
-
-// void gdt_set_entry(int index, uint32_t base, uint16_t limit, uint8_t access, uint8_t gran)
-// {
-//     gdt_entry_t *entry = &gdt_entries[index];
-
-//     entry->base_low = base & 0xFFFF;
-//     entry->base_mid = (base >> 16) & 0xFF;
-//     entry->base_high = (base >> 24) & 0xFF;
-
-//     entry->limit = limit;
-//     entry->granularity = gran;
-// }
 
 uint64_t gdt_data[9] = {
     0x0000000000000000,
