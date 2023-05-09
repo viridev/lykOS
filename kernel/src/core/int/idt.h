@@ -7,6 +7,9 @@
 #define IDT_ENTRY_FLAG_INT 0b1110
 #define IDT_ENTRY_FLAG_TRAP 0b1111
 
+#include <limine.h>
+struct limine_framebuffer *framebuffer;
+
 typedef struct
 {
 	uint16_t offset_low;
@@ -52,35 +55,51 @@ typedef struct
 
 void idt_init();
 
-extern void isr_stub_0();
-extern void isr_stub_1();
-extern void isr_stub_2();
-extern void isr_stub_3();
-extern void isr_stub_4();
-extern void isr_stub_5();
-extern void isr_stub_6();
-extern void isr_stub_7();
-extern void isr_stub_8();
-extern void isr_stub_9();
-extern void isr_stub_10();
-extern void isr_stub_11();
-extern void isr_stub_12();
-extern void isr_stub_13();
-extern void isr_stub_14();
-extern void isr_stub_15();
-extern void isr_stub_16();
-extern void isr_stub_17();
-extern void isr_stub_18();
-extern void isr_stub_19();
-extern void isr_stub_20();
-extern void isr_stub_21();
-extern void isr_stub_22();
-extern void isr_stub_23();
-extern void isr_stub_24();
-extern void isr_stub_25();
-extern void isr_stub_26();
-extern void isr_stub_27();
-extern void isr_stub_28();
-extern void isr_stub_29();
-extern void isr_stub_30();
-extern void isr_stub_31();
+extern void int_stub_0();
+extern void int_stub_1();
+extern void int_stub_2();
+extern void int_stub_3();
+extern void int_stub_4();
+extern void int_stub_5();
+extern void int_stub_6();
+extern void int_stub_7();
+extern void int_stub_8();
+extern void int_stub_9();
+extern void int_stub_10();
+extern void int_stub_11();
+extern void int_stub_12();
+extern void int_stub_13();
+extern void int_stub_14();
+extern void int_stub_15();
+extern void int_stub_16();
+extern void int_stub_17();
+extern void int_stub_18();
+extern void int_stub_19();
+extern void int_stub_20();
+extern void int_stub_21();
+extern void int_stub_22();
+extern void int_stub_23();
+extern void int_stub_24();
+extern void int_stub_25();
+extern void int_stub_26();
+extern void int_stub_27();
+extern void int_stub_28();
+extern void int_stub_29();
+extern void int_stub_30();
+extern void int_stub_31();
+extern void int_stub_32();
+extern void int_stub_33();
+extern void int_stub_34();
+extern void int_stub_35();
+extern void int_stub_36();
+extern void int_stub_37();
+extern void int_stub_38();
+extern void int_stub_39();
+extern void int_stub_40();
+extern void int_stub_41();
+extern void int_stub_42();
+extern void int_stub_43();
+extern void int_stub_44();
+extern void int_stub_45();
+extern void int_stub_46();
+extern void int_stub_47();

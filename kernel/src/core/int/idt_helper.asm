@@ -1,8 +1,11 @@
+; This code is basically taken from here: https://github.com/asterd-og/AstroOS
+; I cant be bothered writing code for pushing stuff on the stack
+
 EXTERN int_handler
 
-%macro isr_stub 1
-global isr_stub_%1
-isr_stub_%1:
+%macro int_stub 1
+global int_stub_%1
+int_stub_%1:
     push 0
     push %1
     push rax
@@ -45,7 +48,7 @@ isr_stub_%1:
 %endmacro
 
 %assign i 0
-%rep 32
-    isr_stub i
+%rep 48
+    int_stub i
     %assign i i+1
 %endrep

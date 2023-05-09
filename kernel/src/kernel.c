@@ -85,13 +85,7 @@ void _start(void) {
     }
 
     // Fetch the first framebuffer.
-    struct limine_framebuffer *framebuffer = framebuffer_request.response->framebuffers[0];
-
-    // Note: we assume the framebuffer model is RGB with 32-bit pixels.
-    for (size_t i = 0; i < 100; i++) {
-        uint32_t *fb_ptr = framebuffer->address;
-        fb_ptr[i * (framebuffer->pitch / 4) + i] = 0xffffff;
-    }
+    framebuffer = framebuffer_request.response->framebuffers[0];
 
     serial_init();
     debug_log("Hi!");
@@ -101,8 +95,15 @@ void _start(void) {
     pmm_init();
     debug_log("Done.");
 
-    for (;;)
-        ;
+    // Note: we assume the framebuffer model is RGB with 32-bit pixels.
+    for (size_t j = 0; j < UINT64_MAX; j++)
+    {    
+        for (size_t i = 0; i < 100; i++)
+        {
+            uint32_t *fb_ptr = framebuffer->address;
+            fb_ptr[i * (framebuffer->pitch / 4) + i] = j;
+        }
+    }
 
     debug_log("Bye!");
 
