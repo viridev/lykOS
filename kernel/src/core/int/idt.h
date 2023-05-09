@@ -7,9 +7,6 @@
 #define IDT_ENTRY_FLAG_INT 0b1110
 #define IDT_ENTRY_FLAG_TRAP 0b1111
 
-#include <limine.h>
-struct limine_framebuffer *framebuffer;
-
 typedef struct
 {
 	uint16_t offset_low;

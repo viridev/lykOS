@@ -48,7 +48,7 @@ void pmm_init()
     uint64_t max_entry_len = 0;
     int max_entry_len_ind = -1; // The index of the longest usable memory segment found.
 
-    for (int i = 0; i < memmap->entry_count; i++)
+    for (int i = 0; i < memmap->entry_count; i++) // Loop through entries until we find the longest segment marked as being usable.
     {
         struct limine_memmap_entry *entry = memmap->entries[i];
     
@@ -79,14 +79,6 @@ void pmm_init()
     for (int i = 0; i < rsv_pages; i++) // Actually reserve the frames.
         pmm_map_set(i, 1);
     debug_log("%d frames have been reserved for the bitmap.", rsv_pages);
-
-    debug_log("%llx", (uint64_t)map);
-    debug_log("%llx", (uint64_t)pmm_req_frame());
-    void *a = pmm_req_frame();
-    debug_log("%llx", a);
-    debug_log("%llx", (uint64_t)pmm_req_frame());
-    pmm_free_frame(a);
-    debug_log("%llx", (uint64_t)pmm_req_frame());
 
     debug_br();
 }

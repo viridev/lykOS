@@ -1,3 +1,5 @@
+#include "kernel.h"
+
 #include <stdint.h>
 #include <stddef.h>
 #include <limine.h>
@@ -85,7 +87,7 @@ void _start(void) {
     }
 
     // Fetch the first framebuffer.
-    framebuffer = framebuffer_request.response->framebuffers[0];
+    struct limine_framebuffer *framebuffer = framebuffer_request.response->framebuffers[0];
 
     serial_init();
     debug_log("Hi!");
