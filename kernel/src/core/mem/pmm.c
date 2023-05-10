@@ -59,9 +59,9 @@ void pmm_init()
         }
 
         if (entry->length / 1024 > 4096) // If the segment is longer than 4MB than display it's size in MBs.
-            debug_log("%d. Base: 0x%llx, len: 0x%llx (%llu MB), type: %s", i, entry->base , entry->length, entry->length / 1024 / 1024, type_str[entry->type]);
+            debug_log("%d. base: 0x%llx, len: 0x%llx (%llu MB), type: %s", i, entry->base , entry->length, entry->length / 1024 / 1024, type_str[entry->type]);
         else // Otherwise go for KBs.
-            debug_log("%d. Base: 0x%llx, len: 0x%llx (%llu KB), type: %s", i, entry->base , entry->length, entry->length / 1024, type_str[entry->type]);
+            debug_log("%d. base: 0x%llx, len: 0x%llx (%llu KB), type: %s", i, entry->base , entry->length, entry->length / 1024, type_str[entry->type]);
     }
     debug_log("The memory segment described at entry No. %d has been assigned as the system's default.", max_entry_len_ind);
 
@@ -90,7 +90,6 @@ void pmm_init()
 void* pmm_req_frame()
 {
     for (uint64_t i = 0; i < map_len; i++)
-    {
         if (pmm_map_read(i) == FREE)
         {
             pmm_map_set(i, USED);
@@ -99,7 +98,32 @@ void* pmm_req_frame()
             free_ram -= 0x1000;
             return (void*)(map + 0x1000 * i);
         }            
-    }
+
+    // ERROR
+}
+
+void* pmm_req_frames(uint64_t count)
+{
+    int j = 0;
+    for (uint64_t i = 0; i < map_len; i++)
+        if (pmm_map_read(i) == FREE)
+        {
+            uint64_t j = 0;
+            for (; j < count; j++)
+                if (pmm_map_read(i + j) == USED) break;
+
+            if (j == count)
+            {
+                for (uint64_t k = 0; k < count; k++)
+                    pmm_map_set(i + j, USED);        
+
+                used_ram += count * 0x1000;
+                free_ram -= count * 0x1000;
+                return (void*)(map + 0x1000 * i);
+            }   
+            else
+                i += j;
+        }              
 
     // ERROR
 }
