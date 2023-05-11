@@ -77,7 +77,7 @@ void draw_filled_rect(uint64_t x, uint64_t y, uint64_t w, uint64_t h, uint32_t c
             active_buffer[(y + j) * video_width  + (x + i)] = color;
 }
 
-uint64_t color_from_argb(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
+uint32_t color_from_argb(uint8_t a, uint8_t r, uint8_t g, uint8_t b)
 {
     return a << 24 | r << 16 | g << 8 | b;
 }

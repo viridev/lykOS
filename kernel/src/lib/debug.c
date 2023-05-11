@@ -1,7 +1,7 @@
 #include "debug.h"
 
 #include <libc/stdlib.h>
-#include <lib/serial.h>
+#include <core/serial.h>
 
 #include <stdint.h>
 #include <stdarg.h>

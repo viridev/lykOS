@@ -20,11 +20,18 @@ void cpuinfo_detect()
     cpu_vendor_id[12] = '\0';
     debug_log("CPU vendor: %s", cpu_vendor_id);
 
-    // Get CPU full name.
-    cpuid(0x80000002, (uint32_t *)(cpu_name +  0), (uint32_t *)(cpu_name +  4), (uint32_t *)(cpu_name +  8), (uint32_t *)(cpu_name + 12));
-    cpuid(0x80000003, (uint32_t *)(cpu_name + 16), (uint32_t *)(cpu_name + 20), (uint32_t *)(cpu_name + 24), (uint32_t *)(cpu_name + 28));
-    cpuid(0x80000004, (uint32_t *)(cpu_name + 32), (uint32_t *)(cpu_name + 36), (uint32_t *)(cpu_name + 40), (uint32_t *)(cpu_name + 44));
-    debug_log("CPU name: %s", cpu_name);
+    // Check if the CPU supports extended functions.
+    uint32_t largest_ext_func;
+    cpuid(0x80000000, &largest_ext_func, &unused, &unused, &unused);
+    if (largest_ext_func >= 0x80000004)
+    {
+        // Get CPU's full name.
+        cpuid(0x80000002, (uint32_t *)(cpu_name +  0), (uint32_t *)(cpu_name +  4), (uint32_t *)(cpu_name +  8), (uint32_t *)(cpu_name + 12));
+        cpuid(0x80000003, (uint32_t *)(cpu_name + 16), (uint32_t *)(cpu_name + 20), (uint32_t *)(cpu_name + 24), (uint32_t *)(cpu_name + 28));
+        cpuid(0x80000004, (uint32_t *)(cpu_name + 32), (uint32_t *)(cpu_name + 36), (uint32_t *)(cpu_name + 40), (uint32_t *)(cpu_name + 44));
+        cpu_name[48] = '\0';
+        debug_log("CPU name: %s", cpu_name);
+    }
 
     debug_br();
 }

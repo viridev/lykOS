@@ -1,6 +1,6 @@
 #include "serial.h"
 
-#include <lib/io.h>
+#include <core/io.h>
 #include <libc/stdlib.h>
 
 int is_transmit_empty()
