@@ -4,10 +4,6 @@
 #include <stddef.h>
 #include <limine.h>
 
-static volatile struct limine_framebuffer_request framebuffer_request = {
-    .id = LIMINE_FRAMEBUFFER_REQUEST,
-    .revision = 0
-};
 
 // GCC and Clang reserve the right to generate calls to the following
 // 4 functions even if they are not directly called.
@@ -78,35 +74,25 @@ static void hcf(void) {
 #include <core/gdt.h>
 #include <core/int/idt.h>
 #include <core/mem/pmm.h>
+#include <lib/video.h>
+#include <core/cpu/cpuinfo.h>
 
-void _start(void) {
-    // Ensure we got a framebuffer.
-    if (framebuffer_request.response == NULL
-     || framebuffer_request.response->framebuffer_count < 1) {
-        hcf();
-    }
-
-    // Fetch the first framebuffer.
-    struct limine_framebuffer *framebuffer = framebuffer_request.response->framebuffers[0];
-
+void _start(void)
+{
     serial_init();
     debug_log("Hi!");
+
+    video_init();
 
     gdt_init();
     idt_init();
     pmm_init();
+
+    video_set_up_db();
+
+    cpuinfo_detect();
+
     debug_log("Done.");
-
-    // Note: we assume the framebuffer model is RGB with 32-bit pixels.
-    for (size_t j = 0; j < UINT64_MAX; j++)
-    {    
-        for (size_t i = 0; i < 100; i++)
-        {
-            uint32_t *fb_ptr = framebuffer->address;
-            fb_ptr[i * (framebuffer->pitch / 4) + i] = j;
-        }
-    }
-
     debug_log("Bye!");
 
     hcf();

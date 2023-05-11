@@ -32,7 +32,7 @@ void video_init()
     video_height = framebuffer_info->height;
     video_bpp = framebuffer_info->bpp;
     video_buffer_size = video_width * video_height * video_bpp / 8;
-    debug_log("width: %llu, height %llu, bpp: %llu, size: 0x%llx", video_width, video_height, video_bpp, video_buffer_size);
+    debug_log("Video - width: %llu, height: %llu, bpp: %llu, size: 0x%llx", video_width, video_height, video_bpp, video_buffer_size);
 
     front_buffer = framebuffer_info->address;
 
@@ -46,6 +46,8 @@ void video_set_up_db()
 
     active_buffer = back_buffer;
     video_is_db = 1;
+
+    debug_log("Double buffering has been enabled for the video renderer.");
 }
 
 void video_update()

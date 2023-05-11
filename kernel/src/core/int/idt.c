@@ -1,6 +1,7 @@
 #include "idt.h"
 #include "pic.h"
 
+#include <lib/video.h>
 #include <lib/debug.h>
 #include <libc/stdlib.h>
 
@@ -64,6 +65,8 @@ void int_handler(int_debug_regs *regs)
 
         debug_log("CPU exception: %llu - %s", regs->int_no, error_msg[regs->int_no]);
         debug_log("System halted.");
+
+        draw_filled_rect(200, 200, 50, 50, 0xffffffff);
 
         for (;;)
             __asm__ volatile("hlt");
