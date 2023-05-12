@@ -14,8 +14,8 @@ void rtc_read_reg(int reg)
 
 void rtc_set_reg(uint16_t reg, uint8_t val)
 {
-    outportb(RTC_ADDR, reg);
-    outportb(RTC_DATA, val);
+    outb(RTC_ADDR, reg);
+    outb(RTC_DATA, val);
 }
 
 int rtc_year()
