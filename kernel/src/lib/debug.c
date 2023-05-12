@@ -2,6 +2,7 @@
 
 #include <libc/stdlib.h>
 #include <core/serial.h>
+#include <core/rtc.h>
 
 #include <stdint.h>
 #include <stdarg.h>
@@ -10,6 +11,15 @@ void debug_log(const char *str, ...)
 {
     va_list list;
     va_start(list, 256);
+
+    char buf[64];
+    serial_write("[");
+    serial_write(itoa(rtc_hour(), buf, 10));
+    serial_write(":");
+    serial_write(itoa(rtc_minute(), buf, 10));
+    serial_write(":");
+    serial_write(itoa(rtc_second(), buf, 10));
+    serial_write("] ");
 
     int i;
     for (i = 0; str[i] != '\0'; i++)
@@ -50,5 +60,5 @@ void debug_log(const char *str, ...)
 
 void debug_br()
 {
-    serial_write("-------------------------\n");    
+    serial_write("--------------------------------------------------\n");    
 }

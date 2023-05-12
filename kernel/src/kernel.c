@@ -69,7 +69,7 @@ static void hcf(void) {
     }
 }
 
-#include <lib/serial.h>
+#include <core/serial.h>
 #include <lib/debug.h>
 #include <core/gdt.h>
 #include <core/int/idt.h>
