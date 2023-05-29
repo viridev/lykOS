@@ -6,22 +6,22 @@
 uint64_t vmm_vaddr_to_paddr(uint64_t *pml4, uint64_t vaddr)
 {
 	// the index of the entry for each level
-    uint64_t pml4e = (vaddr >> 39) & 0x1FF;
-    uint64_t pml3e = (vaddr >> 30) & 0x1FF;
-    uint64_t pml2e = (vaddr >> 21) & 0x1FF;
-    uint64_t pml1e = (vaddr >> 12) & 0x1FF;
+	uint64_t pml4e = (vaddr >> 39) & 0x1FF;
+	uint64_t pml3e = (vaddr >> 30) & 0x1FF;
+	uint64_t pml2e = (vaddr >> 21) & 0x1FF;
+	uint64_t pml1e = (vaddr >> 12) & 0x1FF;
 	uint64_t offset = vaddr & 0xFFF;
 
-	uint64_t* pdp;
-    uint64_t* pd;
-    uint64_t* pt;
+	uint64_t *pdp;
+	uint64_t *pd;
+	uint64_t *pt;
 
 	if (pml4[pml4e] & VMM_PRESENT) // PML4 entry present?
 		pdp = (uint64_t *)(pml4[pml4e] & ~0xFFFULL);
 	else
 		return 0;
 
-	if (pdp[pml3e] & VMM_PRESENT) // PDP entry present?	
+	if (pdp[pml3e] & VMM_PRESENT) // PDP entry present?
 		pd = (uint64_t *)(pdp[pml3e] & ~0xFFFULL);
 	else
 		return 0;
@@ -40,14 +40,14 @@ uint64_t vmm_vaddr_to_paddr(uint64_t *pml4, uint64_t vaddr)
 void vmm_map(uint64_t *pml4, uint64_t vaddr, uint64_t paddr)
 {
 	uint64_t pml4e = (vaddr >> 39) & 0x1FF;
-    uint64_t pml3e = (vaddr >> 30) & 0x1FF;
-    uint64_t pml2e = (vaddr >> 21) & 0x1FF;
-    uint64_t pml1e = (vaddr >> 12) & 0x1FF;
+	uint64_t pml3e = (vaddr >> 30) & 0x1FF;
+	uint64_t pml2e = (vaddr >> 21) & 0x1FF;
+	uint64_t pml1e = (vaddr >> 12) & 0x1FF;
 	uint64_t offset = vaddr & 0xFFF;
 
-    uint64_t* pdp;
-    uint64_t* pd;
-    uint64_t* pt;
+	uint64_t *pdp;
+	uint64_t *pd;
+	uint64_t *pt;
 
 	if (!(pml4[pml4e] & VMM_PRESENT))
 	{
@@ -96,7 +96,9 @@ void vmm_map(uint64_t *pml4, uint64_t vaddr, uint64_t paddr)
 
 void vmm_load_pml4(uint64_t *pml4)
 {
-	__asm__ volatile("mov %0, %%cr3" : : "r"((uint64_t)pml4));
+	__asm__ volatile("mov %0, %%cr3"
+					 :
+					 : "r"((uint64_t)pml4));
 }
 
 uint64_t *pml4;
