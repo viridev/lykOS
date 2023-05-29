@@ -74,6 +74,7 @@ static void hcf(void) {
 #include <core/gdt.h>
 #include <core/int/idt.h>
 #include <core/mem/pmm.h>
+#include <core/mem/vmm.h>
 #include <lib/video.h>
 #include <core/cpu/cpuinfo.h>
 
@@ -87,8 +88,9 @@ void _start(void)
     gdt_init();
     idt_init();
     pmm_init();
+    vmm_init();
 
-    video_set_up_db();
+    // video_set_up_db();
 
     cpuinfo_detect();
 

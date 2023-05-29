@@ -96,6 +96,7 @@ void* pmm_req_frame()
 
             used_ram += 0x1000;
             free_ram -= 0x1000;
+            debug_log("alloc 0x%llx", map + 0x1000 * i);
             return (void*)(map + 0x1000 * i);
         }            
 
